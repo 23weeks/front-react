@@ -3,6 +3,7 @@
 ### 프로젝트 목표 : 
     실시간 데이터 시각화 대시보드 구현
     프론트엔드 자동 배포(CI/CD) - GitHub Actions + S3 + CloudFront
+    백엔드 - Spring-Boot
     라이브러리 : Recharts
 
 # Getting Started with Create React App
