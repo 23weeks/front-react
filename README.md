@@ -5,7 +5,8 @@
     프론트엔드 자동 배포(CI/CD) - GitHub Actions + S3 + CloudFront
 
 ### 백엔드
-    deploy-lab(Spring-Boot)
+    deploy-lab (respository)
+    백엔드 자동 배포(CI/CD) - GitHub Actions + EC2
 
 ### 라이브러리
     Recharts
