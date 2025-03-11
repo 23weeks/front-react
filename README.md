@@ -7,6 +7,7 @@
 ### 백엔드
     deploy-lab (respository)
     백엔드 자동 배포(CI/CD) - GitHub Actions + EC2
+    현재 미연동 상태
 
 ### 라이브러리
     Recharts
