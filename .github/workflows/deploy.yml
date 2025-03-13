@@ -1,7 +1,7 @@
 name: Deploy React App to S3 and Invalidate CloudFront
 
 env:
-  REACT_APP_API_URL: "https://15.164.48.20:8080" # 백엔드 IP:PORT
+  REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }} # 백엔드 IP:PORT
 
 on:
   push:
