@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 import "./SampleChart.css"; // CSS 파일 사용
+
+  //API REQUEST
+  console.log("API_URL : ", process.env.REACT_APP_API_URL);
+
+  fetch(`${process.env.REACT_APP_API_URL}/api/stocks`)
+    .then(res => res.json())
+    .then(data => console.log(data))
+    .then(err => console.error(err));
 
 const data = [
   { name: "Jan", uv: 4000, pv: 2400, amt: 2400 },
@@ -10,6 +18,7 @@ const data = [
 ];
 
 const SampleChart = () => {
+
   return (
     <div className="chart-container">
       <h2>Sample Data</h2>
