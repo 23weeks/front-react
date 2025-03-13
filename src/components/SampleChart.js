@@ -12,7 +12,6 @@ const dummy = [
 const SampleChart = () => {
   // 초기값을 `null`로 설정
   const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     //API 호출
@@ -26,13 +25,8 @@ const SampleChart = () => {
       })
       .catch(err => {
         console.error("Fetch Error :", err);
-        setError(err);
       });
   },[]);
-
-  if(error) {
-    return <div>{error}</div>;  // 에러 발생 시 에러 표시
-  }
 
   if(!data) {
     return <div>Loading...</div>; // 데이터가 없을 때 로딩 표시
