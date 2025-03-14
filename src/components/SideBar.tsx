@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { FaChartLine, FaChartBar } from "react-icons/fa";
 import { BiLineChart } from "react-icons/bi";
 
-const SidebarContainer = styled.div`
+const SidebarContainer = styled.div<{ $isVisible: boolean }>`
   width: 250px;
   height: 100vh;
   background-color: #282c34;
@@ -11,8 +11,16 @@ const SidebarContainer = styled.div`
   padding: 20px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: flex-start;
+  transition: transform 0.3s ease-in-out;
+
+  @media (max-width: 768px) {
+    transform: ${({ $isVisible }) =>
+      $isVisible ? "translateX(0)" : "translateX(-100%)"};
+    width: 200px;
+    z-index: 10;
+    position: absolute;
+  }
 `;
 
 const Title = styled.h2`
@@ -21,15 +29,15 @@ const Title = styled.h2`
   text-align: center;
 `;
 
-const ChartOption = styled.button<{ isSelected: boolean }>`
+const ChartOption = styled.button<{ $isSelected: boolean }>`
   background-color: transparent;
   border: none;
   color: white;
-  font-size: 18px;
-  margin: 15px 0;
-  padding: 20px 30px;
+  font-size: ${({ $isSelected }) => ($isSelected ?  "22px" : "18px")};
+  margin: 10px 0;
+  padding: 15px 15px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, font-size 0.2s;
   display: flex;
   align-items: center;
   width: 100%;
@@ -49,50 +57,71 @@ const ChartOption = styled.button<{ isSelected: boolean }>`
     background-color: #61dafb;
   }
 
-  ${({ isSelected }) =>
-    isSelected &&
+  ${({ $isSelected }) =>
+    $isSelected &&
     `
     background-color: #61dafb;
     color: #282c34;
   `}
+`;
 
-  &:hover span {
-    display: block; /* hover 시 텍스트 표시 */
+const ToggleButton = styled.button`
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background-color: transparent;
+  border: none;
+  color: black;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 20;
+
+  @media (min-width: 769px) {
+    display: none;
   }
 `;
 
 const Sidebar = ({
   selectedChart,
   onChartSelect,
+  isSidebarVisible,
+  toggleSidebar
 }: {
   selectedChart: string;
   onChartSelect: (chart: string) => void;
+  isSidebarVisible: boolean;
+  toggleSidebar: () => void;
 }) => {
   return (
-    <SidebarContainer>
-      <Title>Chart Modes</Title>
-      <ChartOption
-        isSelected={selectedChart === "Line Chart"}
-        onClick={() => onChartSelect("Line Chart")}
-      >
-        <FaChartLine />
-        <span>Line Chart</span>
-      </ChartOption>
-      <ChartOption
-        isSelected={selectedChart === "Candle Chart"}
-        onClick={() => onChartSelect("Candle Chart")}
-      >
-        <BiLineChart />
-        <span>Candle Chart</span>
-      </ChartOption>
-      <ChartOption
-        isSelected={selectedChart === "Volume Chart"}
-        onClick={() => onChartSelect("Volume Chart")}
-      >
-        <FaChartBar />
-        <span>Volume Chart</span>
-      </ChartOption>
-    </SidebarContainer>
+    <>
+      <ToggleButton onClick={toggleSidebar}>
+        {isSidebarVisible ? "☰" : "☰"} {/*✖*/}
+      </ToggleButton>
+      <SidebarContainer $isVisible={isSidebarVisible}>
+        <Title>Chart Modes</Title>
+        <ChartOption
+          $isSelected={selectedChart === "Line Chart"}
+          onClick={() => onChartSelect("Line Chart")}
+        >
+          <FaChartLine />
+          <span>Line Chart</span>
+        </ChartOption>
+        <ChartOption
+          $isSelected={selectedChart === "Candle Chart"}
+          onClick={() => onChartSelect("Candle Chart")}
+        >
+          <BiLineChart />
+          <span>Candle Chart</span>
+        </ChartOption>
+        <ChartOption
+          $isSelected={selectedChart === "Volume Chart"}
+          onClick={() => onChartSelect("Volume Chart")}
+        >
+          <FaChartBar />
+          <span>Volume Chart</span>
+        </ChartOption>
+      </SidebarContainer>
+    </>
   )
 };
 

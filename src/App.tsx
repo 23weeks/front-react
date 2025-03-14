@@ -6,21 +6,40 @@ import styled from "styled-components";
 
 const Container = styled.div`
   display: flex;
-  width: 100%;
   height: 100vh; /* 전체 화면 높이 */
 `;
 
 const MainContent = styled.div`
   flex: 1;
   padding: 20px;
+  background-color: #f4f4f4;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Title = styled.h1`
+  font-size: 32px;
+  margin-bottom: 20px;
+`;
+
+const ChartArea = styled.div`
+  width: 100%;
+  height: 400px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #ccc;
 `;
 
 const App = () => {
-    const [selectedChart, setSelectedChart] = useState<string>("");  // 선택된 차트의 상태를 관리
+    const [selectedChart, setSelectedChart] = useState("Line Chart");
     const [chartData, setChartData] = useState<ChartData[]>([]);    //차트 데이터 상태
+    const [isSidebarVisible, setSidebarVisible] = useState(true);
+
+    const toggleSidebar = () => {
+      setSidebarVisible((prev) => !prev);
+    }
 
     const handleChartSelect = (chartName: string) => {
       setSelectedChart(chartName);  // 차트 선택 시 상태 업데이트
@@ -40,11 +59,18 @@ const App = () => {
 
     return (
       <Container>
-        <Sidebar selectedChart={selectedChart} onChartSelect={handleChartSelect} />
+        <Sidebar 
+          selectedChart={selectedChart}
+          onChartSelect={handleChartSelect}
+          isSidebarVisible={isSidebarVisible}
+          toggleSidebar={toggleSidebar}
+        />
         <MainContent>
-          <h2>Selected Chart: {selectedChart || "none"}</h2>
-          <ChartComponent chartType={selectedChart} data={chartData}/>
-          </MainContent>
+          <Title>Selected Chart: {selectedChart}</Title>
+          <ChartArea>
+            <ChartComponent chartType={selectedChart} data={chartData}></ChartComponent>
+          </ChartArea>
+        </MainContent>
       </Container>
     );
 };
