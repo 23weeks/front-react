@@ -3,10 +3,6 @@ import styled from "styled-components";
 import { FaChartLine, FaChartBar } from "react-icons/fa";
 import { BiLineChart } from "react-icons/bi";
 
-interface SidebarProps {
-    onChartSelect: (chartName: string) => void;
-}
-
 const SidebarContainer = styled.div`
   width: 250px;
   height: 100vh;
@@ -25,7 +21,7 @@ const Title = styled.h2`
   text-align: center;
 `;
 
-const ChartOption = styled.button`
+const ChartOption = styled.button<{ isSelected: boolean }>`
   background-color: transparent;
   border: none;
   color: white;
@@ -36,54 +32,68 @@ const ChartOption = styled.button`
   transition: background-color 0.3s;
   display: flex;
   align-items: center;
-  justify-content: center;
-  position: relative;
   width: 100%;
-  max-width: 200px;
+  border-radius: 5px;
 
   svg {
-    font-size: 40px;
-    transition: opacity 0.3s; /* 아이콘 숨길 때 부드럽게 처리 */
+    font-size: 28px;
+    margin-right: 10px;
   }
 
   span {
-    display: none;
-    font-size: 30px;
-    position: absolute;
-    top: 24px;
+    display: block;
+    font-size: 24px;
   }
 
   &:hover {
     background-color: #61dafb;
   }
 
-  &:hover svg {
-    opacity: 0; /* hover 시 아이콘 숨기기 */
-  }
+  ${({ isSelected }) =>
+    isSelected &&
+    `
+    background-color: #61dafb;
+    color: #282c34;
+  `}
 
   &:hover span {
     display: block; /* hover 시 텍스트 표시 */
   }
 `;
 
-const Sidebar: React.FC<SidebarProps> = ({ onChartSelect }) => {
+const Sidebar = ({
+  selectedChart,
+  onChartSelect,
+}: {
+  selectedChart: string;
+  onChartSelect: (chart: string) => void;
+}) => {
   return (
     <SidebarContainer>
       <Title>Chart Modes</Title>
-      <ChartOption onClick={() => onChartSelect("Line Chart")}>
+      <ChartOption
+        isSelected={selectedChart === "Line Chart"}
+        onClick={() => onChartSelect("Line Chart")}
+      >
         <FaChartLine />
         <span>Line Chart</span>
       </ChartOption>
-      <ChartOption onClick={() => onChartSelect("Candle Chart")}>
+      <ChartOption
+        isSelected={selectedChart === "Candle Chart"}
+        onClick={() => onChartSelect("Candle Chart")}
+      >
         <BiLineChart />
         <span>Candle Chart</span>
       </ChartOption>
-      <ChartOption onClick={() => onChartSelect("Volume Chart")}>
+      <ChartOption
+        isSelected={selectedChart === "Volume Chart"}
+        onClick={() => onChartSelect("Volume Chart")}
+      >
         <FaChartBar />
         <span>Volume Chart</span>
       </ChartOption>
     </SidebarContainer>
-  );
+  )
 };
 
 export default Sidebar;
