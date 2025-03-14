@@ -1,35 +1,21 @@
 import React, {useState} from "react";
-import styled from "styled-components";
 import Sidebar from "./components/SideBar.tsx";
 
-// 차트 타입 관리용 상태 추가
-const AppContainer = styled.div`
-  display: flex;
-`;
-
-const ChartContainer = styled.div`
-  flex-grow: 1;
-  padding: 20px;
-  background-color: #f5f5f5;
-  height: 100vh;
-`;
-
 const App = () => {
-  const [chartType, setChartType] = useState<string>("Line Chart");
+    const [selectedChart, setSelectedChart] = useState<string>("Line Chart");  // 선택된 차트의 상태를 관리
 
-  const handleChartChange = (type: string) => {
-    setChartType(type);
-  };
-
-  return (
-    <AppContainer>
-      <Sidebar />
-      <ChartContainer>
-        <h2>{chartType}</h2>
-        {/* 차트 렌더링은 여기에 추가 */}
-      </ChartContainer>
-    </AppContainer>
-  );
+    const handleChartSelect = (chartName: string) => {
+      setSelectedChart(chartName);  // 차트 선택 시 상태 업데이트
+    };
+  
+    return (
+      <div style={{ display: "flex" }}>
+        <Sidebar onChartSelect={handleChartSelect} />
+        <div style={{ marginLeft: "250px", padding: "20px" }}>
+          <h1>Selected Chart: {selectedChart || "None"}</h1>  {/* 선택된 차트 이름 표시 */}
+        </div>
+      </div>
+    );
 };
 
 export default App;

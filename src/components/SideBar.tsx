@@ -3,6 +3,10 @@ import styled from "styled-components";
 import { FaChartLine, FaChartBar } from "react-icons/fa";
 import { BiLineChart } from "react-icons/bi";
 
+interface SidebarProps {
+    onChartSelect: (chartName: string) => void;
+}
+
 const SidebarContainer = styled.div`
   width: 250px;
   height: 100vh;
@@ -62,19 +66,19 @@ const ChartOption = styled.button`
   }
 `;
 
-const Sidebar = () => {
+const Sidebar: React.FC<SidebarProps> = ({ onChartSelect }) => {
   return (
     <SidebarContainer>
       <Title>Chart Modes</Title>
-      <ChartOption>
+      <ChartOption onClick={() => onChartSelect("Line Chart")}>
         <FaChartLine />
         <span>Line Chart</span>
       </ChartOption>
-      <ChartOption>
+      <ChartOption onClick={() => onChartSelect("Candle Chart")}>
         <BiLineChart />
         <span>Candle Chart</span>
       </ChartOption>
-      <ChartOption>
+      <ChartOption onClick={() => onChartSelect("Volume Chart")}>
         <FaChartBar />
         <span>Volume Chart</span>
       </ChartOption>
