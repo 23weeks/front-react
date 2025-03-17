@@ -8,6 +8,7 @@
     deploy-lab (respository)
     백엔드 자동 배포(CI/CD) - GitHub Actions + EC2
     현재 미연동 상태
+    - 로컬 환경에서는 DB에서 데이터를 가져오고 배포 환경에서는 임시 데이터를 가져오게 연동하려는 중 도메인 생성 사이트의 기술적 오류로 일단 lock
 
 ### 라이브러리
     Recharts
