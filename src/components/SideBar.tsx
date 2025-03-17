@@ -33,7 +33,6 @@ const ChartOption = styled.button<{ $isSelected: boolean }>`
   background-color: transparent;
   border: none;
   color: white;
-  font-size: ${({ $isSelected }) => ($isSelected ?  "22px" : "18px")};
   margin: 10px 0;
   padding: 15px 15px;
   cursor: pointer;
