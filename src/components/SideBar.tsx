@@ -94,7 +94,7 @@ const Sidebar = ({
   return (
     <>
       <ToggleButton onClick={toggleSidebar}>
-        {isSidebarVisible ? "☰" : "☰"} {/*✖*/}
+        {isSidebarVisible ? "✖" : "☰"} {/*✖☰*/}
       </ToggleButton>
       <SidebarContainer $isVisible={isSidebarVisible}>
         <Title>Chart Modes</Title>

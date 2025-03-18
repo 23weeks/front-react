@@ -46,15 +46,29 @@ const App = () => {
     };
   
     useEffect(() => {
-        //더미 데이터
-        const fetchData = async () => {
-            const dummy: ChartData[] = [
-                { stock_time: "2025-03-01", symbol: "AAPL", open: 150, high: 155, low: 149, close: 153, volume: 10000 },
-                { stock_time: "2025-03-02", symbol: "AAPL", open: 153, high: 157, low: 151, close: 154, volume: 12000 }
-            ];
-            setChartData(dummy);
-        };
-        fetchData();
+        //API 호출
+        console.log("API_URL : ", process.env.REACT_APP_API_URL);
+        
+
+        fetch(`${process.env.REACT_APP_API_URL}/api/stocks`, {
+        //fetch(`http://localhost:8080/api/local/stocks`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            symbol: 'AAPL',
+            rownum: 10
+          })
+        })
+          .then(res => res.json())
+          .then(data => {
+            console.log(data);
+            setChartData(data);
+          })
+          .catch(err => {
+            console.error("Fetch Error :", err);
+          });
     },[]);
 
     return (
