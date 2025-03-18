@@ -19,7 +19,10 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ chartType, data }) => {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Line type="monotone" dataKey="close" stroke="#8884d8" />
+            <Line type="monotone" dataKey="open" stroke="#8884d8" />
+            <Line type="monotone" dataKey="high" stroke="#82ca9d" />
+            <Line type="monotone" dataKey="low" stroke="#ff7300" />
+            <Line type="monotone" dataKey="close" stroke="#ff0000" />
           </LineChart>
         </ResponsiveContainer>
       );

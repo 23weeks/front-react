@@ -19,9 +19,43 @@ const MainContent = styled.div`
   justify-content: center;
 `;
 
+const TitleContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+
 const Title = styled.h1`
   font-size: 32px;
   margin-bottom: 20px;
+  flex: 1;
+`;
+
+const RownumContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 20px;
+`;
+
+const RownumSelector = styled.div`
+  display: flex;
+  flex-drection: column;
+  align-items: flex-end;
+`;
+
+const Label = styled.label`
+  font-size: 16px;
+  font-weight: 700;
+  margin-right: 10px;
+  margin-bottom: 5px;
+`;
+
+const Select = styled.select`
+  font-size: 16px;
+  font-weight: 700;
+  padding: 5px;
 `;
 
 const ChartArea = styled.div`
@@ -36,6 +70,7 @@ const App = () => {
     const [selectedChart, setSelectedChart] = useState("Line Chart");
     const [chartData, setChartData] = useState<ChartData[]>([]);    //차트 데이터 상태
     const [isSidebarVisible, setSidebarVisible] = useState(true);
+    const [rownum, setRownum] = useState(10);
 
     const toggleSidebar = () => {
       setSidebarVisible((prev) => !prev);
@@ -45,10 +80,13 @@ const App = () => {
       setSelectedChart(chartName);  // 차트 선택 시 상태 업데이트
     };
   
+    const handleRownumChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+      setRownum(Number(event.target.value));
+    }
+
     useEffect(() => {
         //API 호출
-        console.log("API_URL : ", process.env.REACT_APP_API_URL);
-        
+        //console.log("API_URL : ", process.env.REACT_APP_API_URL);
 
         fetch(`${process.env.REACT_APP_API_URL}/api/stocks`, {
         //fetch(`http://localhost:8080/api/local/stocks`, {
@@ -58,18 +96,18 @@ const App = () => {
           },
           body: JSON.stringify({
             symbol: 'AAPL',
-            rownum: 10
+            rownum: rownum
           })
         })
           .then(res => res.json())
           .then(data => {
-            console.log(data);
+            //console.log(data);
             setChartData(data);
           })
           .catch(err => {
             console.error("Fetch Error :", err);
           });
-    },[]);
+    },[rownum]);
 
     return (
       <Container>
@@ -80,7 +118,21 @@ const App = () => {
           toggleSidebar={toggleSidebar}
         />
         <MainContent>
-          <Title>Selected Chart: {selectedChart}</Title>
+          <TitleContainer>
+            <Title>Selected Chart: {selectedChart}</Title>
+          </TitleContainer>
+
+          <RownumContainer>
+            <RownumSelector>
+              <Label htmlFor="rownum">ROWNUM : </Label>
+              <Select id="rownum" value={rownum} onChange={handleRownumChange}>
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+                <option value={30}>30</option>
+              </Select>
+            </RownumSelector>
+          </RownumContainer>
+
           <ChartArea>
             <ChartComponent chartType={selectedChart} data={chartData}></ChartComponent>
           </ChartArea>
