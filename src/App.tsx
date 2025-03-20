@@ -69,8 +69,9 @@ const ChartArea = styled.div`
 const App = () => {
     const [selectedChart, setSelectedChart] = useState("Line Chart");
     const [chartData, setChartData] = useState<ChartData[]>([]);    //차트 데이터 상태
-    const [isSidebarVisible, setSidebarVisible] = useState(true);
+    const [isSidebarVisible, setSidebarVisible] = useState(false);
     const [rownum, setRownum] = useState(10);
+    
 
     const toggleSidebar = () => {
       setSidebarVisible((prev) => !prev);
@@ -85,28 +86,37 @@ const App = () => {
     }
 
     useEffect(() => {
-        //API 호출
-        //console.log("API_URL : ", process.env.REACT_APP_API_URL);
+      //API 호출
+      //console.log("API_URL : ", process.env.REACT_APP_API_URL);
 
-        fetch(`${process.env.REACT_APP_API_URL}/api/stocks`, {
-        //fetch(`http://localhost:8080/api/local/stocks`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            symbol: 'AAPL',
-            rownum: rownum
-          })
+      //fetch(`${process.env.REACT_APP_API_URL}/api/stocks`, {
+      fetch(`http://localhost:8080/api/local/stocks`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          symbol: 'AAPL',
+          rownum: rownum
+        }),
+      })
+        .then((res) => {
+          if(!res.ok) {
+            throw new Error(`HTTP error! Status: ${res.status}`);
+          }
+          return res.json();
         })
-          .then(res => res.json())
-          .then(data => {
-            //console.log(data);
-            setChartData(data);
-          })
-          .catch(err => {
-            console.error("Fetch Error :", err);
-          });
+        .then((data) => {
+          //console.log(data);
+          setChartData(data);
+        })
+        .catch((err) => {
+          if(err.name === "AbortError") {
+            console.log("Fetch aborted");
+          } else {
+            console.log("Fetch Error:", err);
+          }
+        });
     },[rownum]);
 
     return (
