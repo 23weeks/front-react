@@ -9,6 +9,8 @@ interface ChartComponentProps {
 }
 
 const ChartComponent: React.FC<ChartComponentProps> = ({ chartType, data }) => {
+  const formatNumber = (num: number) => num.toLocaleString();
+
   switch (chartType) {
     case "Line Chart":
       return (
@@ -16,7 +18,7 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ chartType, data }) => {
           <LineChart data={data}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="stock_time" />
-            <YAxis />
+            <YAxis/>
             <Tooltip />
             <Legend />
             <Line type="monotone" dataKey="open" stroke="#8884d8" />
@@ -37,8 +39,8 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ chartType, data }) => {
           <BarChart data={data}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="stock_time" />
-            <YAxis />
-            <Tooltip />
+            <YAxis tickFormatter={formatNumber} />
+            <Tooltip formatter={(value) => formatNumber(Number(value))}/>
             <Legend />
             <Bar dataKey="volume" fill="#82ca9d" />
           </BarChart>
