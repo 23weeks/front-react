@@ -17,3 +17,4 @@
 ### 추가 설명
     - API 연동 방식(RESTful API)
     - CI/CD 방식(Github Actions)
+    - CORS 오류를 해결하기 위한 도메인 생성(진행중)
