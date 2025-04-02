@@ -89,16 +89,20 @@ const App = () => {
       //API 호출
       //console.log("API_URL : ", process.env.REACT_APP_API_URL);
 
-      const symbol = 'AAPL';
+      const params = new URLSearchParams({  //쿼리 스트링으로 변환
+        symbol: 'AAPL',
+        rownum: `{rownum}`
+      });
+
       //fetch(`${process.env.REACT_APP_API_URL}/api/stocks?symbol=${symbol}&rownum=${rownum}`, {
-      fetch(`http://localhost:8080/api/stocks/local?symbol=${symbol}&rownum=${rownum}`, {
+      fetch(`http://localhost:8080/api/stocks/local?${params.toString()}`, {
         method: 'GET'
       })
         .then((res) => {
           if(!res.ok) {
             throw new Error(`HTTP error! Status: ${res.status}`);
           }
-          return res.json();
+          return res.status === 204 ? null : res.json();
         })
         .then((data) => {
           //console.log(data);
