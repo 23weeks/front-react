@@ -89,16 +89,10 @@ const App = () => {
       //API 호출
       //console.log("API_URL : ", process.env.REACT_APP_API_URL);
 
-      //fetch(`${process.env.REACT_APP_API_URL}/api/stocks`, {
-      fetch(`http://localhost:8080/api/local/stocks`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          symbol: 'AAPL',
-          rownum: rownum
-        }),
+      const symbol = 'AAPL';
+      //fetch(`${process.env.REACT_APP_API_URL}/api/stocks?symbol=${symbol}&rownum=${rownum}`, {
+      fetch(`http://localhost:8080/api/stocks/local?symbol=${symbol}&rownum=${rownum}`, {
+        method: 'GET'
       })
         .then((res) => {
           if(!res.ok) {
