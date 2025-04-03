@@ -91,7 +91,7 @@ const App = () => {
 
       const params = new URLSearchParams({  //쿼리 스트링으로 변환
         symbol: 'AAPL',
-        rownum: `{rownum}`
+        rownum: rownum.toString()
       });
 
       //fetch(`${process.env.REACT_APP_API_URL}/api/stocks?symbol=${symbol}&rownum=${rownum}`, {
